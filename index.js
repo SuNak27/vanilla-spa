@@ -1,3 +1,13 @@
+let state = {
+  inputValue: "",
+  hash: location.hash
+}
+
+function setState(newState) {
+  state = { ...state, ...newState }
+  render()
+}
+
 function Link(props) {
   const link = document.createElement("a")
   link.href = props.href
@@ -5,6 +15,8 @@ function Link(props) {
   link.onclick = function (event) {
     event.preventDefault()
     history.pushState(null, "", event.target.href)
+    const url = new URL(event.target.href)
+    setState({ hash: url.hash })
     render()
   }
 
@@ -49,17 +61,29 @@ function AboutScreen() {
 function HomeScreen() {
   const navbar = Navbar()
   const textPreview = document.createElement("p")
+  textPreview.textContent = state.inputValue
 
   const input = document.createElement("input")
+  input.id = "input"
+  input.value = state.inputValue
   input.placeholder = "Enter your name"
 
   input.oninput = function (event) {
-    textPreview.textContent = event.target.value
+    setState({
+      inputValue: event.target.value,
+    })
+  }
+
+  const clearButton = document.createElement("button")
+  clearButton.textContent = "Clear"
+  clearButton.onclick = function () {
+    setState({ inputValue: "" })
   }
 
   const div = document.createElement("div")
   div.append(navbar)
   div.append(input)
+  div.append(clearButton)
   div.append(textPreview)
 
   return div
@@ -69,18 +93,30 @@ function App() {
   const homeScreen = HomeScreen()
   const aboutScreen = AboutScreen()
 
-  if (location.hash === "#about") {
+  if (state.hash === "#about") {
     return aboutScreen
-  } else {
+  } else if (state.hash === "#home") {
     return homeScreen
   }
 }
 
 function render() {
   const root = document.getElementById("root")
+
+  const focusedElementId = document.activeElement.id;
+  const focusedElementSelectionStart = document.activeElement.selectionStart;
+  const focusedElementSelectionEnd = document.activeElement.selectionEnd;
+
   const app = App()
   root.innerHTML = ""
   root.append(app)
+
+  if (focusedElementId) {
+    const focusedElement = document.getElementById(focusedElementId);
+    focusedElement.focus();
+    focusedElement.selectionStart = focusedElementSelectionStart;
+    focusedElement.selectionEnd = focusedElementSelectionEnd;
+  }
 }
 
 render()
