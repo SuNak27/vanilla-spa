@@ -1,28 +1,32 @@
 const root = document.getElementById("root")
 
+function Link(props) {
+  const link = document.createElement("a")
+  link.href = props.href
+  link.textContent = props.label
+  link.onclick = function (event) {
+    event.preventDefault()
+    const component = props.Component()
+    root.innerHTML = ""
+    root.append(component)
+    history.pushState(null, "", event.target.href)
+  }
+
+  return link
+}
+
 function Navbar() {
-  const linkHome = document.createElement("a")
-  linkHome.href = "#home"
-  linkHome.textContent = "Home"
-  linkHome.onclick = function (event) {
-    event.preventDefault()
-    const homeScreen = HomeScreen()
-    root.innerHTML = ""
-    root.append(homeScreen)
-    history.pushState(null, "", event.target.href)
-  }
+  const linkHome = Link({
+    href: "#home",
+    label: "Home",
+    Component: HomeScreen,
+  })
 
-  const linkAbout = document.createElement("a")
-  linkAbout.href = "#about"
-  linkAbout.textContent = "About"
-
-  linkAbout.onclick = function (event) {
-    event.preventDefault()
-    root.innerHTML = ""
-    const aboutScreen = AboutScreen()
-    root.append(aboutScreen)
-    history.pushState(null, "", event.target.href)
-  }
+  const linkAbout = Link({
+    href: "#about",
+    label: "About",
+    Component: AboutScreen,
+  })
 
   const div = document.createElement("div")
   div.append(linkHome)
@@ -33,16 +37,11 @@ function Navbar() {
 
 
 function AboutScreen() {
-  const linkHome = document.createElement("a")
-  linkHome.href = "#home"
-  linkHome.textContent = "Kembali ke Home"
-  linkHome.onclick = function (event) {
-    event.preventDefault()
-    const homeScreen = HomeScreen()
-    root.innerHTML = ""
-    root.append(homeScreen)
-    history.pushState(null, "", event.target.href)
-  }
+  const linkHome = Link({
+    href: "#home",
+    label: "Kembali ke Home",
+    Component: HomeScreen,
+  })
 
   const text = document.createElement("p")
   text.textContent = "Welcome to About"
