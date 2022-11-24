@@ -1,5 +1,5 @@
 let state = {
-  inputValue: localStorage.getItem("inputValue") ?? "",
+  inputValue: localStorage.getItem("inputValue") || "",
   hash: location.hash || "#home",
 }
 
