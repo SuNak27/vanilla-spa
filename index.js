@@ -1,15 +1,11 @@
-const root = document.getElementById("root")
-
 function Link(props) {
   const link = document.createElement("a")
   link.href = props.href
   link.textContent = props.label
   link.onclick = function (event) {
     event.preventDefault()
-    const component = props.Component()
-    root.innerHTML = ""
-    root.append(component)
     history.pushState(null, "", event.target.href)
+    render()
   }
 
   return link
@@ -19,13 +15,11 @@ function Navbar() {
   const linkHome = Link({
     href: "#home",
     label: "Home",
-    Component: HomeScreen,
   })
 
   const linkAbout = Link({
     href: "#about",
     label: "About",
-    Component: AboutScreen,
   })
 
   const div = document.createElement("div")
@@ -40,7 +34,6 @@ function AboutScreen() {
   const linkHome = Link({
     href: "#home",
     label: "Kembali ke Home",
-    Component: HomeScreen,
   })
 
   const text = document.createElement("p")
@@ -72,13 +65,24 @@ function HomeScreen() {
   return div
 }
 
-if (location.hash === "#about") {
-  root.innerHTML = ""
-  const aboutScreen = AboutScreen()
-  root.append(aboutScreen)
-} else {
+function App() {
   const homeScreen = HomeScreen()
-  root.innerHTML = ""
-  root.append(homeScreen)
+  const aboutScreen = AboutScreen()
+
+  if (location.hash === "#about") {
+    return aboutScreen
+  } else {
+    return homeScreen
+  }
 }
+
+function render() {
+  const root = document.getElementById("root")
+  const app = App()
+  root.innerHTML = ""
+  root.append(app)
+}
+
+render()
+
 
