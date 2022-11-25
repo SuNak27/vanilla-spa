@@ -1,10 +1,10 @@
-import TodoPage from "../view/Home.js"
+import Home from "../view/Home.js"
 import NotFound from "../view/NotFound.js"
 
-const routes = [
+const Root = [
   {
     path: "#",
-    component: TodoPage,
+    component: Home,
   },
   {
     path: "#not-found",
@@ -12,4 +12,4 @@ const routes = [
   }
 ]
 
-export default routes
+export default Root

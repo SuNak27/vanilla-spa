@@ -1,4 +1,4 @@
-import routes from "../routes/index.js"
+import Root from "../routes/index.js"
 import NotFound from "../view/NotFound.js"
 
 let currentState = {
@@ -28,12 +28,8 @@ function onStateChange(prevState, nextState) {
 }
 
 function App() {
-  const component = routes.find((route) => route.path === currentState.path)?.component
-  if (component) {
-    return component
-  } else {
-    return NotFound
-  }
+  const component = Root.find((route) => route.path === currentState.path)?.component() ?? NotFound()
+  return component
 }
 
 function renderApp() {
@@ -61,9 +57,9 @@ function addTodo(newState) {
 }
 
 export {
+  currentState,
+  newTodoList,
   setState,
   addTodo,
   renderApp,
-  currentState,
-  newTodoList,
 }

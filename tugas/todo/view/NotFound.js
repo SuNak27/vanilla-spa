@@ -15,4 +15,4 @@ function NotFound() {
   return div
 }
 
-export default NotFound()
+export default NotFound

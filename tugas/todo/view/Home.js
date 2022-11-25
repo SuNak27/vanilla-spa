@@ -46,10 +46,10 @@ function TodoPage() {
   const input = InputElement()
   const status = statusElement()
   const button = addButton()
-  const todoList = TodoList
+  const todoList = TodoList()
 
   todo.append(title, input, status, button, todoList)
   return todo
 }
 
-export default TodoPage()
+export default TodoPage
