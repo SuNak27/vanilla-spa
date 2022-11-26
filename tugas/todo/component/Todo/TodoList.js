@@ -1,5 +1,5 @@
 import createElement from "../CreateElement.js";
-import { currentState } from "../../store/index.js";
+import { currentState, setState } from "../../store/index.js";
 
 function TodoList() {
   // const currentState = currentState?.todoList;
@@ -25,7 +25,7 @@ function TodoList() {
         const todoList = currentState.todoList;
         todoList.splice(index, 1);
         localStorage.setItem("todoList", JSON.stringify(todoList));
-        window.location.reload();
+        setState({ todoList: todoList });
       }
     }, "Delete"));
     tr.append(td1, td2, td3, td4);
