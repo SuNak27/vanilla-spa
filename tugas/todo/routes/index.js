@@ -1,7 +1,7 @@
 import Home from "../view/Home.js"
 import NotFound from "../view/NotFound.js"
 
-const Root = [
+const Routes = [
   {
     path: "#",
     component: Home,
@@ -12,4 +12,4 @@ const Root = [
   }
 ]
 
-export default Root
+export default Routes

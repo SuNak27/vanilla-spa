@@ -1,34 +1,40 @@
-import Root from "../routes/index.js"
+import Routes from "../routes/index.js"
 import NotFound from "../view/NotFound.js"
 
 let currentState = {
   todoList: JSON.parse(localStorage.getItem("todoList")) || [],
   path: location.hash || "#",
-}
-
-var newTodoList = {
-  title: "",
-  status: ""
+  newTodoList: {
+    title: "",
+    status: ""
+  }
 }
 
 function setState(newState) {
   const prevState = { ...currentState }
   const nextState = { ...currentState, ...newState }
   currentState = nextState
-  onStateChange(prevState, nextState)
   renderApp()
+  onStateChange(prevState, nextState)
 }
 
 function onStateChange(prevState, nextState) {
-  localStorage.setItem("todoList", JSON.stringify(nextState.todoList))
+  if (prevState.todoList !== nextState.todoList) {
+    localStorage.setItem("todoList", JSON.stringify(nextState.todoList))
+  }
 
   if (prevState.path !== nextState.path) {
     history.pushState(null, "", nextState.path)
   }
+
+  if (prevState.newTodoList !== nextState.newTodoList) {
+    localStorage.setItem("newTodoList", JSON.stringify(nextState.newTodoList))
+  }
 }
 
 function App() {
-  const component = Root.find((route) => route.path === currentState.path)?.component() ?? NotFound()
+  const component = Routes.find((route) => route.path == currentState.path).component() ?? NotFound()
+
   return component
 }
 
@@ -40,26 +46,8 @@ function renderApp() {
   root.append(app)
 }
 
-function resetForm() {
-  const form = document.getElementById("form")
-  form.reset()
-  newTodoList = {
-    title: "",
-    status: ""
-  }
-}
-
-function addTodo(newState) {
-  const todoList = currentState.todoList
-  todoList.push(newState)
-  setState({ todoList })
-  resetForm()
-}
-
 export {
   currentState,
-  newTodoList,
   setState,
-  addTodo,
-  renderApp,
+  renderApp
 }

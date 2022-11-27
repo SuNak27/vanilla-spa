@@ -1,11 +1,14 @@
 import createElement from "../component/CreateElement.js"
 import TodoList from "../component/Todo/TodoList.js"
-import { addTodo, newTodoList } from "../store/index.js"
+import { currentState, setState } from "../store/index.js"
 
 function InputElement() {
-  const input = createElement("input", ["mx-auto"], { id: "input", placeholder: "Enter title", }, null, {
+  const input = createElement("input", ["mx-auto"], {
+    id: "input", placeholder: "Enter title",
+    value: currentState.newTodoList.title
+  }, null, {
     input: (event) => {
-      newTodoList.title = event.target.value
+      currentState.newTodoList.title = event.target.value
     }
   })
 
@@ -13,9 +16,11 @@ function InputElement() {
 }
 
 function statusElement() {
-  const status = createElement("select", null, { id: "status" }, null, {
+  const status = createElement("select", null, { id: "status" }, {
+    value: currentState.newTodoList.status,
+  }, {
     change: (event) => {
-      newTodoList.status = event.target.value
+      currentState.newTodoList.status = event.target.value
     }
   },
     createElement("option", null, null, null, null, "Choose status"),
@@ -30,9 +35,9 @@ function addButton() {
   const addButton = createElement("button", ["mx-3"], { id: "add-button", type: "submit" }, null, {
     click: (event) => {
       event.preventDefault();
-      addTodo({
-        title: newTodoList.title,
-        status: newTodoList.status,
+      setState({
+        todoList: [...currentState.todoList, currentState.newTodoList],
+        newTodoList: { title: "", status: "" }
       })
     },
   }, "Tambah")
@@ -40,7 +45,7 @@ function addButton() {
   return addButton
 }
 
-function TodoPage() {
+function Home() {
   const todo = createElement("form", ["d-block", "text-center"], { id: 'form' })
   const title = createElement("h1", null, { id: "title" }, null, null, "Todo List")
   const input = InputElement()
@@ -52,4 +57,4 @@ function TodoPage() {
   return todo
 }
 
-export default TodoPage
+export default Home

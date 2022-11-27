@@ -1,2 +1,2 @@
-import { renderApp } from "./store/index.js"
+import { renderApp } from "./store/index.js";
 renderApp()
