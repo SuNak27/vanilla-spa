@@ -21,9 +21,7 @@ function InputElement() {
 }
 
 function statusElement() {
-  const status = createElement("select", null, { id: "status", value: currentState.newTodoList.status }, {
-    // value: currentState.newTodoList.status,
-  }, {
+  const status = createElement("select", null, { id: "status" }, null, {
     change: (event) => {
       setState({
         newTodoList: {
