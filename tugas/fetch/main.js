@@ -64,6 +64,7 @@ const Home = () => {
           <td colspan="5">Data Empty</td>
         `;
         table.append(tr);
+        table.removeChild(loadings);
       }
     })
     .catch((error) => {
