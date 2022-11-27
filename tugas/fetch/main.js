@@ -20,7 +20,7 @@ const Home = () => {
   });
 
   const loadings = document.createElement("tr");
-  loadings.innerHTML = `<td>Loading...</td>`;
+  loadings.innerHTML = `<td colspan="5">Loading...</td>`;
 
   const table = document.createElement("table");
   table.innerHTML = `
@@ -35,8 +35,14 @@ const Home = () => {
 
   table.append(loadings);
 
-  fetch(`https://dummyjson.com/prssdoducts/search?q=${state.search}`)
-    .then((response) => response.json())
+  fetch(`https://dummyjson.com/products/search?q=${state.search}`)
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        loadings.innerHTML = `<td colspan="5">${response.statusText}</td>`;
+      }
+    })
     .then((data) => {
       setState(() => state.products = data.products);
       if (state.products.length) {
