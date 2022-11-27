@@ -1,8 +1,14 @@
-import { getProduct, setState, state } from "../store/index.js";
+import { setState, state } from "../store/index.js";
 
 const Home = () => {
   const div = document.createElement("div");
   div.innerHTML = `<h1>Home</h1>`;
+
+  const form = document.createElement("form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    setState({ search: event.target.search.value });
+  });
 
   const input = document.createElement("input");
   input.id = "search";
@@ -11,10 +17,7 @@ const Home = () => {
   const searchButton = document.createElement("button");
   searchButton.id = "button";
   searchButton.innerHTML = "Search";
-  searchButton.addEventListener("click", () => {
-    setState({ search: input.value });
-    getProduct()
-  });
+  searchButton.type = "submit";
 
   const text = document.createElement("p");
   if (state.search) {
@@ -66,7 +69,10 @@ const Home = () => {
     table.appendChild(loadings);
   }
 
-  div.append(input, searchButton, text, table);
+  form.appendChild(input);
+  form.appendChild(searchButton);
+
+  div.append(form, text, table);
   return div;
 };
 

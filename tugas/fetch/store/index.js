@@ -18,6 +18,7 @@ const setState = (newState) => {
 
 const onStateChange = (prevState, nextState) => {
   if (prevState.search !== nextState.search) {
+    getProduct();
     localStorage.setItem("search", nextState.search);
   }
 
