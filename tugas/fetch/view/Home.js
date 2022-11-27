@@ -1,5 +1,4 @@
-import renderApp from "../main.js";
-import store from "../store/index.js";
+import { getProduct, setState, state } from "../store/index.js";
 
 const Home = () => {
   const div = document.createElement("div");
@@ -7,74 +6,67 @@ const Home = () => {
 
   const input = document.createElement("input");
   input.id = "search";
-  input.value = store.state.search;
+  input.value = state.search;
 
   const searchButton = document.createElement("button");
   searchButton.id = "button";
   searchButton.innerHTML = "Search";
   searchButton.addEventListener("click", () => {
-    store.setState(() => store.state.search = input.value);
-    renderApp();
+    setState({ search: input.value });
+    getProduct()
   });
+
+  const text = document.createElement("p");
+  if (state.search) {
+    text.innerHTML = "Search: " + state.search;
+  }
 
   const loadings = document.createElement("tr");
   loadings.innerHTML = `<td colspan="5">Loading...</td>`;
+  loadings.style.display = state.isLoading ? "table-row" : "none";
 
   const table = document.createElement("table");
   table.innerHTML = `
-    <tr>
-      <th>Product Name</th>
-      <th>Price</th>
-      <th>Stock</th>
-      <th>Category</th>
-      <th>Image</th>
-    </tr>
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+      </tr>
+    </thead>
   `;
 
-  table.append(loadings);
+  if (!state.isLoading) {
+    table.innerHTML += `
+    <tbody>
+      ${state.products.map((product) => `
+        <tr>
+          <td><img src="${product.thumbnail}" alt="${product.title}" width="100px"></td>
+          <td>${product.title}</td>
+          <td>${product.price}</td>
+          <td>${product.stock}</td>
+          <td>${product.category}</td>
+        </tr>
+      `).join("")}
+    </tbody>
+    `;
 
-  fetch(`https://dummyjson.com/products/search?q=${store.state.search}`)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        loadings.innerHTML = `<td colspan="5">${response.statusText}</td>`;
-      }
-    })
-    .then((data) => {
-      store.setState(() => store.state.products = data.products);
-      if (store.state.products.length) {
-        store.state.products.forEach((product) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${product.title}</td>
-            <td>${product.price}</td>
-            <td>${product.stock}</td>
-            <td>${product.category}</td>
-            <td><img src="${product.thumbnail}" alt="${product.title}" width="100px"></td>
-          `;
-          table.append(tr);
-        });
-        table.removeChild(loadings);
-      } else {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td colspan="5">Data Empty</td>
-        `;
-        table.append(tr);
-        table.removeChild(loadings);
-      }
-    })
-    .catch((error) => {
-      alert("Terjadi kesalahan");
-      console.error(error);
-    });
+    if (state.products.length === 0) {
+      table.innerHTML += `
+        <tfoot>
+          <tr>
+            <td colspan="5">No Data</td>
+          </tr>
+        </tfoot>
+      `;
+    }
+  } else {
+    table.appendChild(loadings);
+  }
 
-
-  div.append(input);
-  div.append(searchButton);
-  div.append(table);
-
+  div.append(input, searchButton, text, table);
   return div;
 };
 
