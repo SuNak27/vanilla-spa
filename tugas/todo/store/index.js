@@ -41,9 +41,20 @@ function App() {
 function renderApp() {
   const root = document.getElementById("app")
 
+  const focusedElementId = document.activeElement.id;
+  const focusedElementSelectionStart = document.activeElement.selectionStart;
+  const focusedElementSelectionEnd = document.activeElement.selectionEnd;
+
   const app = App()
   root.innerHTML = ""
   root.append(app)
+
+  if (focusedElementId) {
+    const focusedElement = document.getElementById(focusedElementId);
+    focusedElement.focus();
+    focusedElement.selectionStart = focusedElementSelectionStart;
+    focusedElement.selectionEnd = focusedElementSelectionEnd;
+  }
 }
 
 export {

@@ -8,7 +8,12 @@ function InputElement() {
     value: currentState.newTodoList.title
   }, null, {
     input: (event) => {
-      currentState.newTodoList.title = event.target.value
+      setState({
+        newTodoList: {
+          ...currentState.newTodoList,
+          title: event.target.value
+        }
+      })
     }
   })
 
@@ -16,16 +21,27 @@ function InputElement() {
 }
 
 function statusElement() {
-  const status = createElement("select", null, { id: "status" }, {
-    value: currentState.newTodoList.status,
+  const status = createElement("select", null, { id: "status", value: currentState.newTodoList.status }, {
+    // value: currentState.newTodoList.status,
   }, {
     change: (event) => {
-      currentState.newTodoList.status = event.target.value
+      setState({
+        newTodoList: {
+          ...currentState.newTodoList,
+          status: event.target.value
+        }
+      })
     }
   },
-    createElement("option", null, null, null, null, "Choose status"),
-    createElement("option", null, null, null, null, "Done"),
-    createElement("option", null, null, null, null, "Progress")
+    createElement("option", null, {
+      selected: currentState.newTodoList.status === ""
+    }, null, null, "Choose status"),
+    createElement("option", null, {
+      selected: currentState.newTodoList.status === "Done"
+    }, null, null, "Done"),
+    createElement("option", null, {
+      selected: currentState.newTodoList.status === "Progress"
+    }, null, null, "Progress")
   )
 
   return status
