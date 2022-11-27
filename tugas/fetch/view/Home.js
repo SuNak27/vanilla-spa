@@ -9,6 +9,11 @@ const Home = () => {
     event.preventDefault();
     setState({ search: event.target.search.value });
   });
+  form.addEventListener("reset", (event) => {
+    event.preventDefault();
+    setState({ search: "" });
+  });
+
 
   const input = document.createElement("input");
   input.id = "search";
@@ -18,6 +23,12 @@ const Home = () => {
   searchButton.id = "button";
   searchButton.innerHTML = "Search";
   searchButton.type = "submit";
+  searchButton.disabled = state.isLoading
+
+  const resetButton = document.createElement("button");
+  resetButton.id = "reset";
+  resetButton.innerHTML = "Reset";
+  resetButton.type = "reset";
 
   const text = document.createElement("p");
   if (state.search) {
@@ -71,6 +82,7 @@ const Home = () => {
 
   form.appendChild(input);
   form.appendChild(searchButton);
+  form.appendChild(resetButton);
 
   div.append(form, text, table);
   return div;
