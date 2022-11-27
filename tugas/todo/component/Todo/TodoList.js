@@ -23,7 +23,20 @@ function TodoList() {
         todoList.splice(index, 1);
         setState({ todoList: todoList });
       }
-    }, "Delete"));
+    }, "Delete"), " ", createElement("button", ["btn", "btn-warning", "btn-sm"], { id: "edit-button" }, null, {
+      click: (event) => {
+        event.preventDefault();
+        setState({
+          newTodoList: {
+            title: todo.title,
+            status: todo.status
+          }
+        });
+        const todoList = [...currentState.todoList];
+        todoList.splice(index, 1);
+        setState({ todoList: todoList });
+      }
+    }, "Edit"));
     tr.append(number, title, status, action);
     tbody.append(tr);
   });
