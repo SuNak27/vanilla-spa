@@ -7,17 +7,20 @@ const Home = () => {
   const form = document.createElement("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    setState({ search: event.target.search.value });
+    setState({ isLoading: true });
   });
   form.addEventListener("reset", (event) => {
     event.preventDefault();
-    setState({ search: "" });
+    setState({ search: "", isLoading: true });
   });
 
 
   const input = document.createElement("input");
   input.id = "search";
   input.value = state.search;
+  input.addEventListener("input", (event) => {
+    setState({ search: event.target.value });
+  });
 
   const searchButton = document.createElement("button");
   searchButton.id = "button";
@@ -80,10 +83,7 @@ const Home = () => {
     table.appendChild(loadings);
   }
 
-  form.appendChild(input);
-  form.appendChild(searchButton);
-  form.appendChild(resetButton);
-
+  form.append(input, searchButton, resetButton, text);
   div.append(form, text, table);
   return div;
 };

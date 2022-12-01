@@ -18,17 +18,19 @@ const setState = (newState) => {
 
 const onStateChange = (prevState, nextState) => {
   if (prevState.search !== nextState.search) {
-    getProduct();
     localStorage.setItem("search", nextState.search);
   }
 
   if (prevState.products !== nextState.products) {
     localStorage.setItem("product", JSON.stringify(nextState.products));
   }
+
+  if (nextState.isLoading) {
+    getProduct();
+  }
 };
 
 const getProduct = () => {
-  setState({ isLoading: true });
   fetch(`https://dummyjson.com/products/search?q=${state.search}`)
     .then((response) => {
       if (response.status === 200) {
@@ -40,7 +42,8 @@ const getProduct = () => {
     .then((data) => {
       setState({ products: data.products, isLoading: false });
     })
-    .catch(() => {
+    .catch((err) => {
+      alert("Error " + err);
       setState({ isLoading: false });
     });
 };
