@@ -5,6 +5,8 @@ let state = {
   search: localStorage.getItem("search") || "",
   path: location.hash || "#",
   isLoading: false,
+  isError: false,
+  ErrorMessage: null,
 };
 
 const setState = (newState) => {
@@ -13,7 +15,6 @@ const setState = (newState) => {
   state = nextState;
   renderApp();
   onStateChange(prevState, nextState);
-
 }
 
 const onStateChange = (prevState, nextState) => {
@@ -28,7 +29,42 @@ const onStateChange = (prevState, nextState) => {
   if (nextState.isLoading) {
     getProduct();
   }
+
+  if (nextState.isError == true && prevState.isError == false) {
+    alert(nextState.ErrorMessage);
+  }
 };
+
+function reducer(prevState, action) {
+  switch (action.type) {
+    case "FETCH":
+      return { ...prevState, isLoading: true };
+    case "SEARCH":
+      return { ...prevState, search: action.payload.search };
+    case "RESET_SEARCH":
+      return { ...prevState, search: "", isLoading: true };
+    case "FETCH_ERROR":
+      return {
+        ...prevState,
+        isError: true,
+        ErrorMessage: action.payload.error,
+        isLoading: false
+      };
+    case "GET_PRODUCTS":
+      return {
+        ...prevState,
+        products: action.payload.products,
+        isLoading: false
+      };
+    default:
+      return prevState;
+  }
+}
+
+function send(action) {
+  const newState = reducer(state, action);
+  setState(newState);
+}
 
 const getProduct = () => {
   fetch(`https://dummyjson.com/products/search?q=${state.search}`)
@@ -36,15 +72,14 @@ const getProduct = () => {
       if (response.status === 200) {
         return response.json();
       } else {
-        alert("Error " + response.status);
+        send({ type: "FETCH_ERROR", payload: { error: response.statusText } });
       }
     })
     .then((data) => {
-      setState({ products: data.products, isLoading: false });
+      send({ type: "GET_PRODUCTS", payload: { products: data.products } });
     })
     .catch((err) => {
-      alert("Error " + err);
-      setState({ isLoading: false });
+      send({ type: "FETCH_ERROR", payload: { error: err.message } });
     });
 };
 
@@ -76,6 +111,7 @@ export {
   state,
   setState,
   onStateChange,
+  send,
   getProduct,
   renderApp,
 }

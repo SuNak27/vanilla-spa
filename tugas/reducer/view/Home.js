@@ -1,4 +1,4 @@
-import { setState, state } from "../store/index.js";
+import { send, state } from "../store/index.js";
 
 const Home = () => {
   const div = document.createElement("div");
@@ -7,19 +7,18 @@ const Home = () => {
   const form = document.createElement("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    setState({ isLoading: true });
+    send({ type: "FETCH" });
   });
   form.addEventListener("reset", (event) => {
     event.preventDefault();
-    setState({ search: "", isLoading: true });
+    send({ type: "RESET_SEARCH" });
   });
-
 
   const input = document.createElement("input");
   input.id = "search";
   input.value = state.search;
   input.addEventListener("input", (event) => {
-    setState({ search: event.target.value });
+    send({ type: "SEARCH", payload: { search: event.target.value } });
   });
 
   const searchButton = document.createElement("button");

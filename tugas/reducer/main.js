@@ -1,4 +1,4 @@
-import { getProduct, renderApp, setState } from "./store/index.js";
+import { renderApp, send } from "./store/index.js";
 
-setState({ isLoading: true });
+send({ type: "FETCH" });
 renderApp();
