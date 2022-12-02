@@ -77,12 +77,14 @@ const Pagination = () => {
 
   const firstPage = document.createElement("button");
   firstPage.innerHTML = "First";
+  firstPage.disabled = state.page === 1 || state.isLoading;
   firstPage.addEventListener("click", () => {
     send({ type: "FIRST_PAGE" });
   });
 
   const prev = document.createElement("button");
   prev.innerHTML = "Prev";
+  prev.disabled = state.page === 1 || state.isLoading;
   prev.addEventListener("click", () => {
     send({ type: "PREV_PAGE" });
   });
@@ -91,12 +93,14 @@ const Pagination = () => {
 
   const next = document.createElement("button");
   next.innerHTML = "Next";
+  next.disabled = state.page === state.totalPage || state.isLoading;
   next.addEventListener("click", () => {
     send({ type: "NEXT_PAGE" });
   });
 
   const lastPage = document.createElement("button");
   lastPage.innerHTML = "Last";
+  lastPage.disabled = state.page === state.totalPage || state.isLoading;
   lastPage.addEventListener("click", () => {
     send({ type: "LAST_PAGE" });
   });

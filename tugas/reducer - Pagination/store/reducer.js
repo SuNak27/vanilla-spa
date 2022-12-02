@@ -4,7 +4,12 @@ import { setState, state } from "./index.js";
 function reducer(prevState, action) {
   switch (action.type) {
     case "FETCH":
-      return { ...prevState, isLoading: true };
+      return {
+        ...prevState,
+        isLoading: true,
+        page: 1,
+        skip: 0,
+      };
     case "SEARCH":
       return { ...prevState, q: action.payload.search };
     case "RESET_SEARCH":
@@ -31,7 +36,13 @@ function reducer(prevState, action) {
         isLoading: false
       };
     case "SELECT_LIMIT":
-      return { ...prevState, limit: action.payload.limit, isLoading: true };
+      return {
+        ...prevState,
+        limit: action.payload.limit,
+        isLoading: true,
+        page: 1,
+        skip: 0
+      };
     case "PREV_PAGE":
       return {
         ...prevState,
