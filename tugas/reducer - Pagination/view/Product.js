@@ -204,7 +204,7 @@ const Table = () => {
 
 const Product = () => {
   const div = document.createElement("div");
-  div.innerHTML = `<h1>Home</h1>`;
+  div.innerHTML = `<h1>Product List</h1>`;
 
   const form = FormElement();
   const inputSearch = InputSearch();
