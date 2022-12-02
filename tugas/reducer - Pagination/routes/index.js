@@ -1,9 +1,13 @@
-import Home from "../view/Home.js"
+import fetchData from "../store/fetchData.js"
+import Product from "../view/Product.js"
 
 const routes = [
   {
     path: '#',
-    component: Home
+    apiURL: `/products/search?`,
+    params: ["q", "limit", "skip"],
+    actionType: 'GET_PRODUCTS',
+    component: Product
   }
 ]
 
