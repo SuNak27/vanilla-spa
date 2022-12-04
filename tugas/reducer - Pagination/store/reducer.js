@@ -11,7 +11,13 @@ function reducer(prevState, action) {
         skip: 0,
       };
     case "SEARCH":
-      return { ...prevState, q: action.payload.search };
+      setTimeout(() => {
+        send({ type: "FETCH" });
+      }, 1000);
+      return {
+        ...prevState,
+        q: action.payload.search,
+      };
     case "RESET_SEARCH":
       return { ...prevState, q: "", isLoading: true };
     case "FETCH_ERROR":

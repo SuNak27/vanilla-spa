@@ -116,9 +116,6 @@ const InputSearch = () => {
   input.value = state.q;
   input.addEventListener("input", (event) => {
     send({ type: "SEARCH", payload: { search: event.target.value } });
-    setTimeout(() => {
-      send({ type: "FETCH" });
-    }, 500);
   });
 
   return input;
