@@ -30,6 +30,9 @@ const setState = (newState) => {
 
 const onStateChange = (prevState, nextState) => {
   if (prevState.q !== nextState.q) {
+    setTimeout(() => {
+      send({ type: "FETCH" });
+    }, 1000);
     localStorage.setItem("search", nextState.q);
   }
 

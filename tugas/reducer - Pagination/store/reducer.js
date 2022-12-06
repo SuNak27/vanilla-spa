@@ -11,9 +11,6 @@ function reducer(prevState, action) {
         skip: 0,
       };
     case "SEARCH":
-      setTimeout(() => {
-        send({ type: "FETCH" });
-      }, 1000);
       return {
         ...prevState,
         q: action.payload.search,

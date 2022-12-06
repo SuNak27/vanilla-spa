@@ -1,4 +1,3 @@
-import fetchData from "../store/fetchData.js"
 import Product from "../view/Product.js"
 
 const routes = [
