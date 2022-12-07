@@ -40,7 +40,7 @@ const paginationNumberWithDots = (start, end) => {
   for (let i = start; i <= end; i++) {
     const page = document.createElement("button");
     page.innerHTML = i;
-    page.disabled = state.page === i || state.isLoading;
+    page.disabled = state.page === i || state.appState === "loading" || state.totalPage === 1;
     page.addEventListener("click", () => {
       send({ type: "SELECT_PAGE", payload: { page: i } });
     });
@@ -61,7 +61,7 @@ const paginationNumberWithDots = (start, end) => {
 
   const lastPage = document.createElement("button");
   lastPage.innerHTML = state.totalPage;
-  lastPage.disabled = state.page === state.totalPage || state.isLoading;
+  lastPage.disabled = state.page === state.totalPage || state.appState === "loading" || state.totalPage === 0;
   lastPage.addEventListener("click", () => {
     send({ type: "LAST_PAGE" });
   });
@@ -77,14 +77,14 @@ const Pagination = () => {
 
   const firstPage = document.createElement("button");
   firstPage.innerHTML = "First";
-  firstPage.disabled = state.page === 1 || state.isLoading;
+  firstPage.disabled = state.page === 1 || state.appState === "loading";
   firstPage.addEventListener("click", () => {
     send({ type: "FIRST_PAGE" });
   });
 
   const prev = document.createElement("button");
   prev.innerHTML = "Prev";
-  prev.disabled = state.page === 1 || state.isLoading;
+  prev.disabled = state.page === 1 || state.appState === "loading";
   prev.addEventListener("click", () => {
     send({ type: "PREV_PAGE" });
   });
@@ -93,14 +93,14 @@ const Pagination = () => {
 
   const next = document.createElement("button");
   next.innerHTML = "Next";
-  next.disabled = state.page === state.totalPage || state.isLoading;
+  next.disabled = state.page === state.totalPage || state.appState === "loading";
   next.addEventListener("click", () => {
     send({ type: "NEXT_PAGE" });
   });
 
   const lastPage = document.createElement("button");
   lastPage.innerHTML = "Last";
-  lastPage.disabled = state.page === state.totalPage || state.isLoading;
+  lastPage.disabled = state.page === state.totalPage || state.appState === "loading";
   lastPage.addEventListener("click", () => {
     send({ type: "LAST_PAGE" });
   });
@@ -126,7 +126,7 @@ const SearchButton = () => {
   searchButton.id = "button";
   searchButton.innerHTML = "Search";
   searchButton.type = "submit";
-  searchButton.disabled = state.isLoading
+  searchButton.disabled = state.appState === "loading";
 
   return searchButton;
 }
@@ -152,7 +152,7 @@ const TextSearch = () => {
 const Loading = () => {
   const loadings = document.createElement("tr");
   loadings.innerHTML = `<td colspan="5">Loading...</td>`;
-  loadings.style.display = state.isLoading ? "table-row" : "none";
+  loadings.style.display = state.appState === 'loading' ? "table-row" : "none";
 
   return loadings;
 }
@@ -171,7 +171,9 @@ const Table = () => {
     </thead>
   `;
 
-  if (!state.isLoading) {
+  if (state.appState == "loading") {
+    table.appendChild(Loading());
+  } else {
     table.innerHTML += `
     <tbody>
       ${state.products.map((product) => `
@@ -195,8 +197,6 @@ const Table = () => {
         </tfoot>
       `;
     }
-  } else {
-    table.appendChild(Loading());
   }
 
   return table;

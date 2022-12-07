@@ -16,11 +16,19 @@ const getData = () => {
       if (response.status === 200) {
         return response.json();
       } else {
-        send({ type: "FETCH_ERROR", payload: { error: response.statusText } });
+        send({
+          type: "FETCH_ERROR", payload: {
+            error: response.statusText,
+          }
+        });
       }
     })
     .then((data) => {
-      send({ type: state.actionType, payload: { data: data } });
+      send({
+        type: state.actionType, payload: {
+          data: data,
+        }
+      });
     })
     .catch((err) => {
       send({ type: "FETCH_ERROR", payload: { error: err.message } });

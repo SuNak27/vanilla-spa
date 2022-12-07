@@ -3,14 +3,15 @@ import fetchData from "./fetchData.js";
 import send from "./reducer.js";
 
 let state = {
+  // Finity State Machine
+  appState: "idle" /* idle | loading | success | error */,
+
   products: JSON.parse(localStorage.getItem("product")) ?? [],
   q: localStorage.getItem("search") || "",
   path: location.hash || "#",
   apiUrl: routes.find((route) => route.path === (location.hash || "#"))?.apiURL || "",
   actionType: routes.find((route) => route.path === (location.hash || "#"))?.actionType || "",
   params: routes.find((route) => route.path === (location.hash || "#"))?.params || [],
-  isLoading: false,
-  isError: false,
   ErrorMessage: null,
   limit: 5,
   pages: [],
@@ -30,9 +31,10 @@ const setState = (newState) => {
 
 const onStateChange = (prevState, nextState) => {
   if (prevState.q !== nextState.q) {
-    setTimeout(() => {
+    clearTimeout(window.debounce);
+    window.debounce = setTimeout(() => {
       send({ type: "FETCH" });
-    }, 1000);
+    }, 500);
     localStorage.setItem("search", nextState.q);
   }
 
@@ -40,11 +42,11 @@ const onStateChange = (prevState, nextState) => {
     localStorage.setItem("product", JSON.stringify(nextState.products));
   }
 
-  if (nextState.isLoading === true && prevState.isLoading === false) {
+  if (nextState.appState === "loading") {
     fetchData.getData(routes.find((route) => route.path === state.path)?.apiURL);
   }
 
-  if (nextState.isError == true && prevState.isError == false) {
+  if (nextState.appState === "error") {
     alert(nextState.ErrorMessage);
   }
 };
