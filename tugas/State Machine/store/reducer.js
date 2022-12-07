@@ -20,6 +20,7 @@ const loading = (prevState, action) => {
       return {
         ...prevState,
         ErrorMessage: action.payload.error,
+        products: [],
         appState: 'error',
       };
     case "GET_PRODUCTS":
@@ -136,41 +137,6 @@ const error = (prevState, action) => {
         appState: 'loading',
         page: 1,
         skip: 0
-      };
-    case "SELECT_PAGE":
-      return {
-        ...prevState,
-        page: action.payload.page,
-        skip: (action.payload.page - 1) * prevState.limit,
-        appState: 'loading',
-      };
-    case "PREV_PAGE":
-      return {
-        ...prevState,
-        page: prevState.page - 1,
-        skip: prevState.skip - prevState.limit,
-        appState: 'loading',
-      };
-    case "NEXT_PAGE":
-      return {
-        ...prevState,
-        page: prevState.page + 1,
-        skip: prevState.skip + prevState.limit,
-        appState: 'loading',
-      };
-    case "FIRST_PAGE":
-      return {
-        ...prevState,
-        page: 1,
-        skip: 0,
-        appState: 'loading',
-      };
-    case "LAST_PAGE":
-      return {
-        ...prevState,
-        page: prevState.totalPage,
-        skip: (prevState.totalPage - 1) * prevState.limit,
-        appState: 'loading',
       };
     default:
       return prevState;

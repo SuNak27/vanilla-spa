@@ -93,14 +93,14 @@ const Pagination = () => {
 
   const next = document.createElement("button");
   next.innerHTML = "Next";
-  next.disabled = state.page === state.totalPage || state.appState === "loading";
+  next.disabled = state.page === state.totalPage || state.appState === "loading" || state.appState === "error";
   next.addEventListener("click", () => {
     send({ type: "NEXT_PAGE" });
   });
 
   const lastPage = document.createElement("button");
   lastPage.innerHTML = "Last";
-  lastPage.disabled = state.page === state.totalPage || state.appState === "loading";
+  lastPage.disabled = state.page === state.totalPage || state.appState === "loading" || state.appState === "error";
   lastPage.addEventListener("click", () => {
     send({ type: "LAST_PAGE" });
   });
@@ -157,6 +157,14 @@ const Loading = () => {
   return loadings;
 }
 
+const Error = () => {
+  const error = document.createElement("tr");
+  error.innerHTML = `<td colspan="5">${state.ErrorMessage}</td>`;
+  error.style.display = state.appState === 'error' ? "table-row" : "none";
+
+  return error;
+}
+
 const Table = () => {
   const table = document.createElement("table");
   table.innerHTML = `
@@ -173,6 +181,8 @@ const Table = () => {
 
   if (state.appState == "loading") {
     table.appendChild(Loading());
+  } else if (state.appState == "error") {
+    table.appendChild(Error());
   } else {
     table.innerHTML += `
     <tbody>
@@ -197,6 +207,7 @@ const Table = () => {
         </tfoot>
       `;
     }
+
   }
 
   return table;
