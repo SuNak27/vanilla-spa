@@ -24,9 +24,16 @@ const getData = () => {
       }
     })
     .then((data) => {
+      const totalPage = Math.ceil(data.total / state.limit);
+      const pages = [];
+      for (let i = 1; i <= totalPage; i++) {
+        pages.push(i);
+      }
       send({
         type: state.actionType, payload: {
           data: data,
+          pages: pages,
+          totalPage: totalPage,
         }
       });
     })
