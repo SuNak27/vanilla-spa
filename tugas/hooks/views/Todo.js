@@ -34,33 +34,15 @@ function todoList(props) {
 }
 
 
-function Todo() {
-  const [todos, setTodos] = React.useState([]);
-  const [text, setText] = React.useState(
-    localStorage.getItem("text") || "",
-  );
-
-  React.useEffect(() => {
-    localStorage.setItem("textTodo", text);
-  }, [text]);
-
-  React.useEffect(() => {
-    localStorage.setItem("todos", todos);
-  }, [todos]);
-
+function Todo(props) {
   const div = document.createElement("div");
-
   div.append(addTodo({
-    value: text,
-    onTextChange: props => setText(props),
-    onButtonAddClick: () => {
-      setTodos([...todos, text])
-      setText("");
-    },
+    value: props.value,
+    onTextChange: props.onTextChange,
+    onButtonAddClick: props.onButtonAddClick,
   }));
   div.append(todoList({
-    todos,
-
+    todos: props.todos,
   }));
 
   return div;

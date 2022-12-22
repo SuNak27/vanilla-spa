@@ -9,10 +9,17 @@ function HomePage() {
     localStorage.getItem("text") || "",
   );
   const [todos, setTodos] = React.useState([]);
+  const [value, setValue] = React.useState(
+    localStorage.getItem("textTodo") || "",
+  );
 
   React.useEffect(() => {
     localStorage.setItem("text", text);
   }, [text]);
+
+  React.useEffect(() => {
+    localStorage.setItem("textTodo", value);
+  }, [value]);
 
   React.useEffect(() => {
     localStorage.setItem("count", count);
@@ -33,9 +40,10 @@ function HomePage() {
   });
 
   const todo = Todo({
-    value: text,
-    onTextChange: (newText) => setText(newText),
-    onButtonAddClick: () => setTodos([...todos, text]),
+    value: value,
+    onTextChange: (newText) => setValue(newText),
+    onButtonAddClick: () => setTodos([...todos, value]),
+    todos,
   })
 
   const div = document.createElement("div");
