@@ -1,4 +1,5 @@
 import Button from "./components/button.js";
+import Text from "./components/inputText.js";
 
 const ReactDOM = (function () {
   let _container;
@@ -88,9 +89,16 @@ const React = (function () {
 
 function HomePage() {
   const [count, setCount] = React.useState(0);
+  const [text, setText] = React.useState(
+    localStorage.getItem("text") || "",
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem("text", text);
+  }, [text]);
 
   const h1 = document.createElement("h1");
-  h1.textContent = "Button Counter";
+  h1.textContent = "Hook";
 
   const button = Button({
     count,
@@ -98,9 +106,15 @@ function HomePage() {
     onButtonDecreaseClick: () => setCount(count - 1),
   })
 
+  const input = Text({
+    value: text,
+    onTextChange: (newText) => setText(newText),
+  });
+
   const div = document.createElement("div");
   div.append(h1);
   div.append(button);
+  div.append(input);
 
   return div;
 }
