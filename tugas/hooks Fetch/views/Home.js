@@ -13,6 +13,8 @@ function HomePage() {
 
   const [error, setError] = React.useState("");
 
+  const [empty, setEmpty] = React.useState(false);
+
   React.useEffect(() => {
     setLoading(true);
   }, []);
@@ -25,6 +27,11 @@ function HomePage() {
           setLoading(false);
           setData(data.products);
           setError("");
+          if (data.products.length === 0) {
+            setEmpty(true);
+          } else {
+            setEmpty(false);
+          }
         })
         .catch((err) => {
           setLoading(false);
@@ -62,6 +69,9 @@ function HomePage() {
     div.append(p);
   } else if (error) {
     p.textContent = error;
+    div.append(p);
+  } else if (empty) {
+    p.textContent = "Data tidak ditemukan";
     div.append(p);
   } else {
     div.append(table);
