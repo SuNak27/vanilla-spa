@@ -1,0 +1,14 @@
+/* Nav UL LI to right */
+.nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+
+.nav li {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 0;
+    list-style: none;
+}
