@@ -1,16 +1,16 @@
-import About from "../view/About.js";
-import Home from "../view/Home.js";
+import Input from "../view/Input.js";
+import Counter from "../view/Counter.js";
 
 const routes = [
   {
     path: '/',
-    label: 'Home',
-    component: Home
+    label: 'Counter',
+    component: Counter
   },
   {
-    path: '/about',
-    label: 'About',
-    component: About
+    path: '/input',
+    label: 'Input',
+    component: Input
   }
 ]
 
