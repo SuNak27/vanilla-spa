@@ -41,10 +41,8 @@ const React = (function () {
       return Comp;
     },
     useState(initialValue) {
-      console.log("useState");
       const useStateIndex = currentIndex;
       currentIndex++;
-      console.log("hook Arr:", hooks);
 
       hooks[useStateIndex] = hooks[useStateIndex] ?? initialValue;
 
