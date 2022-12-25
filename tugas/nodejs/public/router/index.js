@@ -11,6 +11,11 @@ const routes = [
     path: '/input',
     label: 'Input',
     // component: Input
+  },
+  {
+    path: '/fetch',
+    label: 'Fetch',
+    // component: Input
   }
 ]
 

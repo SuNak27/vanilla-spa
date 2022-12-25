@@ -3,6 +3,7 @@ import Navbar from "./component/Navbar.js";
 import { ReactDOM, React } from "./react/React.js";
 import routes from "./router/index.js";
 import Counter from "./view/Counter.js";
+import FetchData from "./view/FetchData.js";
 import Input from "./view/Input.js";
 import NotFound from "./view/NotFound.js";
 
@@ -32,6 +33,7 @@ function App() {
 
   const CounterPage = Counter()
   const InputPage = Input()
+  const FetchDataPage = FetchData()
   const NotFoundPage = NotFound()
 
   let component
@@ -41,6 +43,9 @@ function App() {
       break;
     case "/input":
       component = InputPage
+      break;
+    case "/fetch":
+      component = FetchDataPage
       break;
     default:
       component = NotFoundPage
