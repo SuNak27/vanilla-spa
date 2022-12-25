@@ -7,12 +7,13 @@ const Navbar = (props) => {
   navbar.classList.add("navbar");
 
   const navbarBrand = document.createElement("div");
-  navbarBrand.classList.add("navbar-brand");
+  navbarBrand.classList.add("navbar-link");
 
   routes.forEach((route) => {
     const navbarItem = Link({
       href: route.path,
       text: route.label,
+      active: props.active,
       onClick: (e) => {
         props.onClick(e);
       },

@@ -2,7 +2,12 @@ const Layout = (props) => {
   const layout = document.createElement("div");
   layout.classList.add("layout");
 
-  layout.append(props.navbar, props.children);
+  const container = document.createElement("div");
+  container.classList.add("container");
+
+  container.appendChild(props.children);
+
+  layout.append(props.navbar, container);
 
   return layout;
 };

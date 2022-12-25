@@ -6,6 +6,10 @@ const Link = (props) => {
     props.onClick(e);
   };
 
+  if (props.active === props.href) {
+    a.classList.add('active');
+  }
+
   return a;
 };
 

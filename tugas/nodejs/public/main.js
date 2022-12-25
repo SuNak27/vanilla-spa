@@ -7,6 +7,7 @@ import NotFound from "./view/NotFound.js";
 function App() {
   const [path, setPath] = React.useState(window.location.pathname);
   const navbar = Navbar({
+    active: path,
     onClick: (e) => {
       e.preventDefault();
       const url = new URL(e.target.href);
