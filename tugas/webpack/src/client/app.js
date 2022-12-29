@@ -1,3 +1,4 @@
+import css from "./assets/style.css";
 import Layout from "./component/Layout.js";
 import Navbar from "./component/Navbar.js";
 import { ReactDOM, React } from "./react/React.js";
