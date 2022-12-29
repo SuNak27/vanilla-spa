@@ -2,9 +2,6 @@ import Layout from "./component/Layout.js";
 import Navbar from "./component/Navbar.js";
 import { ReactDOM, React } from "./react/React.js";
 import routes from "./router/index.js";
-import Counter from "./view/Counter.js";
-import FetchData from "./view/FetchData.js";
-import Input from "./view/Input.js";
 import NotFound from "./view/NotFound.js";
 
 function App() {
@@ -19,52 +16,41 @@ function App() {
     },
   })
 
-  /**
-   * Bagaimana cara memanggil component sesuai dengan path?
-   * 
-   * Contoh:
-   * path: / -> CounterPage
-   * path: /input -> InputPage
-   * path: /not-found -> NotFoundPage
-   * 
-   * Selain menggunakan switch case, bagaimana cara lainnya?
-   * menggunakan file routes.js yang sudah disediakan di folder router misalnya
-   */
-
-  const CounterPage = Counter()
-  const InputPage = Input()
-  const FetchDataPage = FetchData()
   const NotFoundPage = NotFound()
-
-  let component
-  switch (path) {
-    case "/":
-      component = CounterPage
-      break;
-    case "/input":
-      component = InputPage
-      break;
-    case "/fetch":
-      component = FetchDataPage
-      break;
-    default:
-      component = NotFoundPage
-      break;
-  }
-
-  /**
-   * const component = routes.find((route) => route.path === path)?.component || NotFoundPage
-   * 
-   * Menggunakan cara ini ternyata tidak bisa, kenapa?
-   */
-
+  const isFound = routes.some((route) => route.path === path)
 
   const layout = Layout({
     navbar: navbar,
-    children: component,
+    children: isFound ? Content({ currentPath: path }) : NotFoundPage,
   });
 
   return layout;
+}
+
+function Route(props) {
+  const component = props.component()
+  const empty = document.createElement("div")
+
+  if (props.path === props.currentPath) {
+    return component
+  } else {
+    return empty
+  }
+}
+
+function Content(props) {
+  const div = document.createElement("div");
+  const children = routes.map((route) => {
+    return Route({
+      path: route.path,
+      currentPath: props.currentPath,
+      component: route.component,
+    })
+  })
+
+  div.append(...children);
+
+  return div;
 }
 
 const app = document.getElementById("app");
