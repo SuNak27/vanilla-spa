@@ -8,40 +8,41 @@ interface Base {
   id: number;
 }
 
-interface UserInterface extends Base {
+interface User extends Base {
   firstName: string;
   lastName: string;
 }
 
-interface PostInterface extends Base {
+interface Post extends Base {
   title: string;
   body: string;
 }
 
-interface CommentInterface extends Base {
+interface CommentI extends Base {
   comment: string;
 }
 
 
-const userVar: UserInterface = {
+var user: User = {
   id: 1,
   firstName: "Alfad",
   lastName: "Haq",
+  isAdmin: false
 };
 
-const postVar: PostInterface = {
+const post: Post = {
   id: 1,
   title: "Why I love TypeScript",
   body: "Because it's awesome",
 };
 
-const commentVar: CommentInterface = {
+const commentVar: CommentI = {
   id: 1,
   comment: "I agree",
 };
 
-console.log(userVar.id);
-console.log(postVar.id);
+console.log(user.id);
+console.log(post.id);
 console.log(commentVar.id);
 
 
