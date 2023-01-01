@@ -4,11 +4,6 @@
     "allowJs": true,
     "target": "es2015",
     "esModuleInterop": true,
-    "skipDefaultLibCheck": true,
-    "noEmit": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
   },
   "include": [
     "./src/**/*"
