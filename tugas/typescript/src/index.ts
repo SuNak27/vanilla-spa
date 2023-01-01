@@ -5,9 +5,9 @@ type Person = {
 };
 
 const person: Person = {
-  name: "M. Nindra Zaka",
-  age: 25,
-  address: "Probolinggo",
+  name: "Alfad Sabil Haq",
+  age: 20,
+  address: "Paiton",
 };
 
 console.log(person);
