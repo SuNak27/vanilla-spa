@@ -1,3 +1,5 @@
+import { FocusListener, Komen, LukeSkywalker, MyType, Person, Post, User } from "./Interface/index";
+
 // Playground
 var person: Person = {
   name: "Alfad Sabil Haq",

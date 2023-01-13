@@ -8,13 +8,13 @@ interface Base {
   id: number;
 }
 
-interface Person {
+export interface Person {
   name: string;
   age: number;
   address: string;
 };
 
-interface User extends Base {
+export interface User extends Base {
   firstName: string;
   lastName: string;
   isAdmin?: boolean;
@@ -22,17 +22,17 @@ interface User extends Base {
   posts?: Array<Post>;
 }
 
-interface Post extends Base {
+export interface Post extends Base {
   id: number;
   title: string;
   body?: string;
 }
 
-interface Komen extends Base {
+export interface Komen extends Base {
   comment: string;
 }
 
-interface LukeSkywalker {
+export interface LukeSkywalker {
   name: string;
   height: string;
   mass: string;
@@ -43,6 +43,6 @@ interface LukeSkywalker {
   gender: string;
 }
 
-type FocusListener = (isFocused: boolean) => void;
-type MyType = Omit<User, "id">;
-type Role = "admin" | "user" | "super-admin";
+export type FocusListener = (isFocused: boolean) => void;
+export type MyType = Omit<User, "id">;
+export type Role = "admin" | "user" | "super-admin";

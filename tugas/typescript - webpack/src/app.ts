@@ -5,6 +5,12 @@ import { ReactDOM, React } from "./react/React";
 import routes from "./router/index";
 import NotFound from "./view/NotFound";
 
+type RouteProps = {
+  path: string;
+  currentPath: string;
+  component: HTMLElement | any;
+};
+
 function App() {
   const [path, setPath] = React.useState(window.location.pathname);
   const navbar = Navbar({
@@ -28,7 +34,7 @@ function App() {
   return layout;
 }
 
-function Route(props) {
+function Route(props: RouteProps) {
   const component = props.component()
   const empty = document.createElement("div")
 
@@ -39,7 +45,7 @@ function Route(props) {
   }
 }
 
-function Content(props) {
+function Content(props: { currentPath: string; }) {
   const div = document.createElement("div");
   const children = routes.map((route) => {
     return Route({
