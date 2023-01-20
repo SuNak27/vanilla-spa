@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
+    /** TS Loader Options */
+    // "outDir": "./dist",
+    /** TSC Options */
+    "outDir": "./build",
     "allowJs": true,
     "target": "es5",
     "esModuleInterop": true

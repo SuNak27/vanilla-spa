@@ -7,7 +7,11 @@
     "build:webpack:client": "webpack --config webpack.config.client.js",
     "build:webpack:server": "webpack --config webpack.config.server.js",
     "build": "npm run build:webpack:client && npm run build:webpack:server",
-    "start": "npm run build && node dist/server.js"
+    "start": "npm run build && node dist/server.js",
+    "build:ts:server": "webpack --config webpack.config.ts.server.js",
+    "build:ts:client": "webpack --config webpack.config.ts.client.js",
+    "build:ts": "tsc && npm run build:ts:client && npm run build:ts:server",
+    "start:ts": "tsc && npm run build:ts && node dist/server.js"
   },
   "author": "",
   "license": "ISC",

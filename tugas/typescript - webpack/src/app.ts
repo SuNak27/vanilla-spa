@@ -1,4 +1,9 @@
-import "./assets/style.css";
+/** CSS For TS Loader */
+// import "./assets/style.css"; 
+
+/** CSS For TSC */
+import "../src/assets/style.css";
+
 import { Layout } from "./component/Layout";
 import Navbar from "./component/Navbar";
 import { ReactDOM, React } from "./react/React";
