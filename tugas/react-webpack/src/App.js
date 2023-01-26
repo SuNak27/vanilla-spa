@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Layout from "./components/Layout";
 import Navbar from "./components/Navbar";
 import routes from "./router";
+import { Context } from "./utils/context";
 import NotFound from "./view/NotFound";
 
 
 function App() {
   const [path, setPath] = useState(window.location.pathname);
+  const [input, setInput] = useState("");
   const navbar = (
     <Navbar active={path} onClick={(e) => {
       e.preventDefault();
@@ -18,14 +20,16 @@ function App() {
   const NotFoundPage = <NotFound />
   const isFound = routes.some((route) => route.path === path)
   return (
-    <Layout navbar={navbar}>
-      {isFound ? Content({ currentPath: path }) : NotFoundPage()}
-    </Layout>
+    <Context.Provider value={{ path, setPath, input, setInput }}>
+      <Layout navbar={navbar}>
+        {isFound ? Content({ currentPath: path, onSetPath: (e) => setPath(e) }) : NotFoundPage}
+      </Layout>
+    </Context.Provider>
   );;
 }
 
 function Route(props) {
-  const component = props.component()
+  const component = props.component(props.onSetPath)
   const empty = <div></div>
 
   if (props.path === props.currentPath) {
@@ -41,7 +45,7 @@ function Content(props) {
       {routes.map((route) => {
         return (
           <Route key={route.path}
-            path={route.path} currentPath={props.currentPath} component={route.component} />
+            path={route.path} currentPath={props.currentPath} component={route.component} onSetPath={props.onSetPath} />
         )
       })}
     </div>

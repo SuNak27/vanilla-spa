@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import InputText from "../components/InputText.js";
+import { Context } from "../utils/context.js";
 
 const Input = () => {
-  const [input, setInput] = useState("");
+  const context = useContext(Context);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const url = new URL('http://localhost:3000/fetch');
+    history.pushState({}, "", url.pathname);
+    context.setPath(url.pathname);
+  }
   return (
-    <div>
+    <>
       <h1>Input</h1>
-      <InputText id="inputText" type="text" placeholder="Input Text" value={input} onInput={(e) => {
-        setInput(e.target.value);
-      }} />
-      <p>{input}</p>
-    </div>
+      <InputText id="inputText" type="text" placeholder="Input Text" value={context.input} onInput={(e) => {
+        context.setInput(e.target.value);
+      }} onSubmit={onSubmit} />
+      <p>{context.input}</p>
+
+    </>
   )
 }
 
