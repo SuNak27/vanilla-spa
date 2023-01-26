@@ -22,14 +22,14 @@ function App() {
   return (
     <Context.Provider value={{ path, setPath, input, setInput }}>
       <Layout navbar={navbar}>
-        {isFound ? Content({ currentPath: path, onSetPath: (e) => setPath(e) }) : NotFoundPage}
+        {isFound ? Content({ currentPath: path }) : NotFoundPage}
       </Layout>
     </Context.Provider>
   );;
 }
 
 function Route(props) {
-  const component = props.component(props.onSetPath)
+  const component = props.component()
   const empty = <div></div>
 
   if (props.path === props.currentPath) {
@@ -45,7 +45,7 @@ function Content(props) {
       {routes.map((route) => {
         return (
           <Route key={route.path}
-            path={route.path} currentPath={props.currentPath} component={route.component} onSetPath={props.onSetPath} />
+            path={route.path} currentPath={props.currentPath} component={route.component} />
         )
       })}
     </div>
